@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Moving from JQuery to Vue</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+  </head>
+  <body>
+    <div id="w" class="container">
+      <h1>Simple Github API Webapp</h1>
+      <p>
+        Enter a single Github username below and click the button to display
+        profile info via JSON.
+      </p>
+      <div class="row">
+        <div class="col-6">
+          <input
+            type="text"
+            class="form-control"
+            id="ghusername"
+            placeholder="Github username..."
+            autofocus="autofocus"
+            v-model="userName"
+          />
+        </div>
+        <div class="col-6">
+          <button class="btn btn-success" v-on:click="onSubmit()">
+            Pull User Data
+          </button>
+        </div>
+        <div class="clearfix">
+          <!-- User Info -->
+          <div v-if="user">
+            <h2>
+              {{ user.name
+              }}<span class="smallname"
+                >(@<a v-bind:href="user.html_url" target="_blank">{{
+                  user.login
+                }}</a
+                >)</span
+              >
+            </h2>
+            <div class="ghcontent">
+              <div>
+                <a v-bind:href="user.login" target="_blank">
+                  <img
+                    v-bind:src="user.avatar_url"
+                    width="80"
+                    height="80"
+                    class="img-thumbnail float-left m-1"
+                    v-bind:alt="user.login"
+                  />
+                </a>
+              </div>
+              <p>
+                Followers: {{ user.followers }} Following: {{ user.following
+                }}<br />Repos: {{ user.public_repos }}
+              </p>
+            </div>
+            <div class="clearfix">
+              <p><strong>Repos List:</strong></p>
+              <p v-if="!user.repos || user.repos.length == 0">No Repos</p>
+              <div>
+                <a
+                  v-for="repo in user.repos"
+                  v-bind:key="repo.html_url"
+                  v-bind:href="repo.html_url"
+                  class="btn btn-sm btn-info m-1"
+                  target="_blank"
+                  >{{ repo.name }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./Vuej4QueryCode.js"></script>
+  </body>
+</html>
